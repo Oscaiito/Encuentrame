@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html [
+    <!ENTITY times "&#215;"> 
+    ]>
+    <html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:f="http://xmlns.jcp.org/jsf/core"
+          xmlns:p="http://primefaces.org/ui"
+          xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+          xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+          style="background-color: #1da1f2;">
+        <h:head>
+            <title>¡Encuentrame!</title>
+            <meta charset="utf-8"></meta>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+            <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+            <meta name="description" content=""></meta>
+            <meta name="author" content=""></meta>
+            <link rel="icon" href="resources/img/encuentrameLogo-min-notext.png"/>
+            <link href="resources/css/bootstrap.min.css" rel="stylesheet"/>
+            <link href="resources/css/sb-admin.css" rel="stylesheet"/>
+            <link href="resources/css/plugins/morris.css" rel="stylesheet"/>
+            <link href="resources/css/myStyle.css" rel="stylesheet"/>
+            <link href="resources/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>  
+            <link href="resources/css/theme.css" rel="stylesheet" type="text/css"/>
+            <link href="resources/css/components.css" rel="stylesheet" type="text/css"/>
+        </h:head>    
+        
+        <h:body style="background-color:  #fff">
+            <div id="wrapper">
+                <!-- Navigation -->
+                <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color: #1da1f2;">
+                    <!-- BARRA SUPERIOR  -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" style="color:white; margin-left: 20%" href=".">
+                            <h5 id="titleLogo">¡Encuentrame!</h5>
+                            <img id="logoImg" src="resources/img/encuentrameLogo-min-notext.png" alt="Logo"/>
+                        </a>
+                        
+                    </div>
+                    <!-- Top Menu Items -->
+                    <ul class="nav navbar-right top-nav">
+                        
+                        
+                    </ul>
+                    <!-- Menu izquierdo-->
+                    <div class="collapse navbar-collapse navbar-ex1-collapse" id="menuIzqLogin">
+                        <ul class="nav navbar-nav side-nav" 
+                            style=" background-color: #21222f; font-size: 15px">
+                            <!--Menu Admin-->
+                            <li class="dropdown">
+                                <div id="portrait" class="porTraitGral">
+                                    
+                                    <p:graphicImage id="portraitImg" value="#{usuarioController.obtenerAvatar()}" alt=""/>
+                                    
+                                    <a id="upload" onclick="loadPic()"><i class="fa fa-camera" ></i></a>
+                                </div>
+                                <div id="stars" style="margin-left: 30%;">
+                                    <i class="#{usuarioController.getStar(1.0)}" aria-hidden="true" style=" color: white;"></i>
+                                    <i class="#{usuarioController.getStar(2.0)}" aria-hidden="true" style=" color: white;"></i>
+                                    <i class="#{usuarioController.getStar(3.0)}" aria-hidden="true" style=" color: white;"></i>
+                                    <i class="#{usuarioController.getStar(4.0)}" aria-hidden="true" style=" color: white;"></i>
+                                    <i class="#{usuarioController.getStar(5.0)}" aria-hidden="true" style=" color: white;"></i><br/>
+                                    <h:outputLabel value="Hola #{usuarioController.meLlamo()}!!" style="color:#1da1f2; margin-left: -12px;"></h:outputLabel>
+                                </div>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+                                    <i class="fa fa-graduation-cap"> </i>
+                                    <c:set var="usuario_" value=" #{indexController.currentUser}"/>
+                                    <h:outputText value=" #{usuarioController.currentUser}" />
+                                    <b class="caret"></b>
+                                </a>
+                                
+                                <ul class="dropdown-menu" >
+                                    <li>
+                                        <a onclick="userModify()"  ><i class="fa fa-edit"></i>  Editar</a>
+                                    </li>
+                                    
+                                </ul>
+                                
+                            </li>
+                            <li>
+                                <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Notificaciones <i class="fa fa-fw fa-caret-down"></i></a>
+                                <ul id="demo" class="collapse">
+                                    <li>
+                                        <a href="#" onclick="validaRespuestas()"><p><i class="fa fa-list"></i> Validar Respuestas #{notes.notificaciones}</p></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="crearCitas()"><p><i class="fa fa-calendar"></i> Crear Citas </p></a>
+                                    </li>                                                                   
+                                </ul>
+                            </li>
+                            
+                            <li>
+                                <a href="javascript:;" data-toggle="collapse" data-target="#publicaciones"><i class="fa fa-fw fa-arrows-v"></i> Publicaciones <i class="fa fa-fw fa-caret-down"></i></a>
+                                <ul id="publicaciones" class="collapse">
+                                    <li>
+                                        <a href="#" onclick="cargaUserPublicaciones()"><p><i class="fa fa-files-o"></i> Todas las publicaciones</p></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="cargaMisPublicaciones()" action=""><p><i class="fa fa-user"></i> Mis publicaciones </p></a>
+                                    </li>  
+                                    <li>
+                                        <a href="#" onclick="creaObjeto()" action=""><p><i class="fa fa-pencil"></i> Nueva publicacion </p></a>
+                                    </li>  
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" onclick="loadCitas()"><i class="fa fa-clock-o" ></i>  Citas</a>
+                            </li>
+                            
+                            <li>
+                                <a href="" onclick="" ><i class="fa fa-home" ></i>  Inicio</a>
+                            </li>
+                            <li>
+                                
+                                <a onclick="killUser()" 
+                                   style="display: #{userModify.adminTools()}; cursor:pointer;">
+                                    <i class="fa fa-users"> Usuarios</i></a>
+                                
+                            </li>
+                            <li>
+                                
+                                <a onclick="agregarLugar()" 
+                                   style="display: #{userModify.adminTools()}; cursor:pointer;">
+                                    <i class="fa fa-map-marker"> Lugares</i></a>
+                                
+                            </li>
+                            <li>
+                                <a href="/encuentrame/logout" ><i class="fa fa-close" ></i>  Salir</a>
+                            </li>
+                            
+                            
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </nav>
+                
+                <!--Contenedor principal-->
+                <div class="container-fluid" id="contPrincipal">
+                    <div id="buscadorPublic" onload="#{muro.all()}">
+                        <h:form id="bpSearch">      
+                            <p:panel id="panel" class="somePanel" header="Publicaciones">
+                                <h:panelGrid columns="3" class="somePanelGrid" cellpadding="5">                                
+                                    <p:inputText id="itemSearch" 
+                                                 class="searchInput"
+                                                 value="#{muro.objetivo}" 
+                                                 placeholder="&#xf002;" style="font-family:Arial, FontAwesome"
+                                                 required="false"></p:inputText>
+                                    
+                                    <h:selectOneMenu id="txt2" class="selectCat"
+                                                     value="#{muro.cat}" 
+                                                     required="false" 
+                                                     label="Categoria">
+                                        <f:selectItem itemLabel="Selecciona una opción" itemValue="" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Libro" itemValue="book" />
+                                        <f:selectItem itemLabel="Celular" itemValue="cellphone" />
+                                        <f:selectItem itemLabel="Ropa" itemValue="clothe" />
+                                        <f:selectItem itemLabel="Credencial" itemValue="credential" />
+                                        <f:selectItem itemLabel="Lentes" itemValue="glasses" />
+                                        <f:selectItem itemLabel="Audifonos" itemValue="headphone" />
+                                        <f:selectItem itemLabel="Laptop" itemValue="laptop" />
+                                        <f:selectItem itemLabel="Libreta" itemValue="notebook" />
+                                        <f:selectItem itemLabel="Pad" itemValue="pad" />
+                                        <f:selectItem itemLabel="Cartera" itemValue="wallet" />
+                                        <f:selectItem itemLabel="Monedero" itemValue="wallet" />
+                                        <f:selectItem itemLabel="Reloj" itemValue="wathc" />
+                                        <f:selectItem itemLabel="Otros" itemValue="otro" />
+                                    </h:selectOneMenu>
+                                    <p:commandButton 
+                                        process="@all" 
+                                        class ="BuscarButton"
+                                        update="bpSearch:wallCont" 
+                                        value="Buscar"
+                                        action="#{muro.search()}"
+                                        style="margin-left: 10%"/>
+                                    
+                                </h:panelGrid>                                
+                            </p:panel>
+                            
+                            <p:panel id="wallCont" style="min-height: 660px; text-align: center;width: 100%">
+                                <h:form id="wForm">
+                                    <p:dataGrid var="post" 
+                                                value="#{muro.cosas}" 
+                                                columns="2" 
+                                                rows="12" 
+                                                paginator="true" 
+                                                id="wGrid"
+                                                paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                                style="min-height: 800px">
+                                        <p:panel header="#{post.obj.titulo}" style="text-align:center;  display: ''">
+                                            <h:panelGrid columns="2" style="width: 100%">
+                                                <p:graphicImage value="resources/img/articles/#{post.obj.categoria}min.png" alt="#{post.obj.categoria}"/> 
+                                                <div style="float:left;width:80%;">
+                                                    <textarea style="width:100%" 
+                                                              readonly="true"
+                                                              >#{post.obj.descripcion}</textarea>
+                                                </div>                                            
+                                                <p:commandLink  title="Responder" 
+                                                                style="display: #{post.isReclamable}"
+                                                                onclick="generaRespuestas(#{post.setObjeto()})"
+                                                                update="@this"
+                                                                >
+                                                    <h:outputText styleClass="fa fa-reply" style="margin:0 auto;" />
+                                                </p:commandLink>
+                                            </h:panelGrid>
+                                        </p:panel>
+                                    </p:dataGrid>
+                                </h:form>
+                            </p:panel>
+                        </h:form>
+                    </div>
+                    
+                </div>
+            </div>
+            <div style="background-color: #1da1f2; color: white;">
+                <footer style="margin-left: 40%;">
+                    <p>TecnoSoft, Copyright © 2016</p>
+                    <p style="margin-top: -15px">All rights reserved.</p>
+                </footer>
+            </div>
+            <script src="resources/js/jquery.js"></script>
+            <script src="resources/js/principal.js"></script>
+            <script src="resources/js/validator.js"></script>
+            <script src="resources/js/bootstrap.min.js"></script>
+            <script src="resources/js/plugins/morris/raphael.min.js"></script>
+            <script src="resources/js/plugins/morris/morris.min.js"></script>
+            <script src="resources/js/plugins/morris/morris-data.js"></script>
+        </h:body>
+    </html>
+    

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html [
+    <!ENTITY times "&#215;"> 
+    ]>
+    <html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:f="http://java.sun.com/jsf/core" 
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"
+          xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+          style="background-color: #1da1f2;">
+        <h:head>
+            <title>¡Encuentrame!</title>
+            <meta charset="utf-8"></meta>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+            <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+            <meta name="description" content=""></meta>
+            <meta name="author" content=""></meta>
+            <link rel="icon" href="resources/img/encuentrameLogo-min-notext.png"/>
+            <link href="resources/css/bootstrap.min.css" rel="stylesheet"/>
+            <link href="resources/css/sb-admin.css" rel="stylesheet"/>
+            <link href="resources/css/plugins/morris.css" rel="stylesheet"/>
+            <link href="resources/css/myStyle.css" rel="stylesheet"/>
+            <link href="resources/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>              
+            <link href="resources/css/components.css" rel="stylesheet" type="text/css"/>
+            <link href="resources/css/theme.css" rel="stylesheet" type="text/css"/>
+            <script type="text/javascript"
+            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDEWF7ugzjgmzbv0UZVKwvcz7gpW_C9kIU"></script>            
+        </h:head>    
+        
+        <h:body style="background-color:  #fff">
+            <div id="wrapper">
+                <!-- Navigation -->
+                <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color: #1da1f2;">
+                    <!-- BARRA SUPERIOR  -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" style="color: white;" href=".">
+                            <h5 id="titleLogo">¡Encuentrame!</h5>
+                            <img id="logoImg" src="resources/img/encuentrameLogo-min-notext.png" alt="Logo"/>
+                            
+                        </a>
+                        
+                    </div>
+                    <!-- Top Menu Items -->
+                    <ul class="nav navbar-right top-nav">
+                        
+                        
+                    </ul>
+                    <!-- Menu izquierdo login -->
+                    <div class="collapse navbar-collapse navbar-ex1-collapse" id="menuIzqLogin">
+                        <ul class="nav navbar-nav side-nav" 
+                            style=" background-color: #21222f">
+                            <!--Login-->
+                            <h4 hidden="" style=" margin-left: 10%;
+                                color:white;">Inicia sesión</h4><br/><br/>
+                            <form action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method="POST">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <div class="form-group">
+                                            <input type="text" name="j_username" class="form-control" placeholder="Usuario" style=" width: 80%; margin-left: 10%; text-align: center "/>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group">
+                                            <input type="password" name="j_password" class="form-control" placeholder="Contraseña" style=" margin-left: 10%; text-align:center;
+                                                   width: 80%;"/>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <input name="submit" type="submit" value="Inicia sesión" class="btn btn-primary"  style=" margin-left: 10%;
+                                               width: 80%;"/>
+                                        <p:dialog widgetVar="dialog" rendered="#{param['popup'] eq 'true'}">
+                                            <script>
+                                                if ('#{param['popup']}' === 'true')
+                                                window.alert("El usuario y/o contraseña ingresados son inválidos.")
+                                            </script>
+                                        </p:dialog>
+                                    </li>
+                                </ul>
+                            </form>
+                            <br/>
+                            <input name="submit" type="submit" value="Registrarse" class="btn btn-primary"  onclick="cargaRegistro()" style=" margin-left: 10%; 
+                                   width: 80%;"/>
+                            <br/><br/>
+                            <a href="#" onclick="recoverPassword()" style="color: white;
+                               margin-left: 15%;
+                               width: 80%">Olvide mi contraseña</a>
+                            
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </nav>
+                
+                <!--Contenedor principal-->
+                <div class="container-fluid" id="contPrincipal">                    
+                    <div id="buscadorPublic" onload="#{muro.all()}">
+                        <h:form id="bpSearch">                            
+                            <p:panel id="panel" class="somePanel" header="Publicaciones">
+                                <h:panelGrid columns="3" class="somePanelGrid" cellpadding="5">                                                                    
+                                    <p:inputText id="itemSearch"
+                                                 class="searchInput"
+                                                 value="#{muro.objetivo}" 
+                                                 placeholder="&#xf002;" style="font-family:Arial, FontAwesome"
+                                                 required="false">
+                                    </p:inputText>
+                                    
+                                    <h:selectOneMenu 
+                                        id="txt2" class="selectCat"
+                                        value="#{muro.cat}" 
+                                        required="false" 
+                                        label="Categoria" 
+                                        requiredMessage="Se necesita seleccionar una categoría">
+                                        <f:selectItem itemLabel="Selecciona una opción" itemValue="" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Libro" itemValue="book" />
+                                        <f:selectItem itemLabel="Celular" itemValue="cellphone" />
+                                        <f:selectItem itemLabel="Ropa" itemValue="clothe" />
+                                        <f:selectItem itemLabel="Credencial" itemValue="credential" />
+                                        <f:selectItem itemLabel="Lentes" itemValue="glasses" />
+                                        <f:selectItem itemLabel="Audifonos" itemValue="headphone" />
+                                        <f:selectItem itemLabel="Laptop" itemValue="laptop" />
+                                        <f:selectItem itemLabel="Libreta" itemValue="notebook" />
+                                        <f:selectItem itemLabel="Pad" itemValue="pad" />
+                                        <f:selectItem itemLabel="Cartera" itemValue="wallet" />
+                                        <f:selectItem itemLabel="Monedero" itemValue="wallet" />
+                                        <f:selectItem itemLabel="Reloj" itemValue="wathc" />
+                                        <f:selectItem itemLabel="Otros" itemValue="otro" />
+                                    </h:selectOneMenu>
+                                    <p:commandButton 
+                                        class ="BuscarButton"
+                                        process="@all" 
+                                        update="bpSearch:wallCont" 
+                                        value="Buscar"
+                                        action="#{muro.search()}"/>
+                                </h:panelGrid>
+                            </p:panel>
+                            
+                            
+                            <p:panel id="wallCont" style="min-height: 660px; text-align: center;width: 100%">
+                                <h:form id="wForm">
+                                    <p:dataGrid var="post" 
+                                                value="#{muro.cosas}" 
+                                                columns="2" 
+                                                rows="12" 
+                                                paginator="true" 
+                                                id="wGrid"
+                                                paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                                style="min-height: 800px">
+                                        <p:panel header="#{post.obj.titulo}" style="text-align:center;  display: ''">
+                                            <h:panelGrid columns="2" style="width: 100%">
+                                                <p:graphicImage value="resources/img/articles/#{post.obj.categoria}min.png" alt="#{post.obj.categoria}"/> 
+                                                <div style="float:left;width:80%;">
+                                                    <textarea style="width:100%" 
+                                                              readonly="true"
+                                                              >#{post.obj.descripcion}</textarea>
+                                                </div>                                            
+                                            </h:panelGrid>
+                                        </p:panel>
+                                    </p:dataGrid>
+                                </h:form>
+                            </p:panel>
+                            
+                            
+                        </h:form>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <div style="background-color: #1da1f2; color: white">
+                <footer style="margin-left: 40%;">
+                    <p>TecnoSoft, Copyright © 2016</p>
+                    <p style="margin-top: -15px">All rights reserved.</p>
+                </footer>
+            </div>
+            
+            <script src="resources/js/jquery.js"></script>
+            <script src="resources/js/principal.js"></script>
+            <script src="resources/js/validator.js"></script>
+            <script src="resources/js/bootstrap.min.js"></script>
+            <script src="resources/js/plugins/morris/raphael.min.js"></script>
+            <script src="resources/js/plugins/morris/morris.min.js"></script>
+            <script src="resources/js/plugins/morris/morris-data.js"></script>
+        </h:body>
+        
+    </html>
+    

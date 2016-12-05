@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html [
+    <!ENTITY times "&#215;"> 
+    ]>
+    <html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:f="http://java.sun.com/jsf/core" 
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"
+          
+          xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+        <h:head>
+            
+            <link href="resources/css/components.css" rel="stylesheet" type="text/css"/>
+            <link href="resources/css/theme.css" rel="stylesheet" type="text/css"/>
+        </h:head>    
+        
+        <h:body style="background-color:  #fff">
+            
+            
+            <!--Vista: Validar Enuestas-->
+            <div id="misEncuestas" onload="#{notes.init()}">
+                <h:form id="meForm" style="padding-top: 10px">
+                    <p:panel id="mefPanel" style="margin-bottom: 10px; display: ''; padding-bottom: 25px">                    
+                        <p:dataTable id="mefpTable" var ="mes" value="#{notes.poll}">
+                            <p:column headerText="Encuestas Pendientes">
+                                <h:panelGrid columns="2" columnClasses="first-col, sec-col">
+                                    <h:outputLabel value="#{mes.title}"></h:outputLabel>
+                                    <p:commandButton 
+                                        id ="buttonShow"
+                                        value="Mostrar"                                    
+                                        style=" font-weight: normal;"
+                                        onclick="unHide('meForm:mefpTable:',#{mes.span},':unId')"                                                                       
+                                        >                                        
+                                    </p:commandButton>
+                                </h:panelGrid>
+                                <p:panel id="unId" style="display: none;">
+                                    <h:panelGrid columns="1" cellpadding="100" style="width: 100%;border-color: white">
+                                        <h:outputLabel class="validationlabel" value="#{mes.qst1}"></h:outputLabel>
+                                        <h:outputLabel style="color: #1da1f2;padding-left: 10px;" value="">#{mes.ans1}</h:outputLabel>
+                                        <br/>
+                                        <h:outputLabel class="validationlabel" value="#{mes.qst2}"></h:outputLabel>
+                                        <h:outputLabel style="color: #1da1f2;padding-left: 10px;" value="">#{mes.ans2}</h:outputLabel>
+                                        <br/>
+                                        <h:outputLabel class="validationlabel" value="#{mes.qst3}"></h:outputLabel>
+                                        <h:outputLabel style="color: #1da1f2;padding-left: 10px;" value="">#{mes.ans3}</h:outputLabel>
+                                        <br/>
+                                        <h:outputLabel class="validationlabel" value="#{mes.qst4}"></h:outputLabel>
+                                        <h:outputLabel style="color: #1da1f2;padding-left: 10px;" value="">#{mes.ans4}</h:outputLabel>
+                                        <br/>
+                                        <h:outputLabel class="validationlabel" value="#{mes.qst5}"></h:outputLabel>
+                                        <h:outputLabel style="color: #1da1f2;padding-left: 10px;" value="">#{mes.ans5}</h:outputLabel>
+                                        <br/>
+                                        
+                                    </h:panelGrid>
+                                    
+                                    <h:panelGrid columns="3" style="border-color: white" columnClasses="c1, c3, c3">
+                                        <p:commandButton value="Cancelar" update="@parent:@parent:@parent:@parent" class="toRight"></p:commandButton>
+                                        <p:commandButton value="Rechazar" update="@parent:@parent:@parent:@parent" action="#{mes.validate('rechazada')}"></p:commandButton>                                        
+                                        <p:commandButton value="Aceptar" update="@parent:@parent:@parent:@parent" action="#{mes.validate('aceptada')}"></p:commandButton>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+            
+            <!-- Mis publicaciones -->
+            <div id="misP" onload="#{muro.all()}" >
+                <h:form id="mpForm">
+                    <p:panel id="mPanel" style="min-height: 660px; text-align: center;width: 100%">
+                        <p:dataGrid var="mip" value="#{muro.misObjetos}" 
+                                    columns="2" 
+                                    rows="12" 
+                                    paginator="true"                                     
+                                    id="wGrid"
+                                    paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                    style="min-height: 800px">
+                            <p:panel header="#{mip.titulo}" style="text-align:center; ">
+                                <h:panelGrid columns="2" style="width: 100%">
+                                    <p:graphicImage value="resources/img/articles/#{mip.categoria}min.png" alt="#{mip.categoria}"/> 
+                                    <div style="float:left;width:80%;">
+                                        <textarea style="width:100%" 
+                                                  readonly="true"
+                                                  >#{mip.descripcion}</textarea>
+                                    </div>                                            
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:dataGrid>
+                    </p:panel>
+                </h:form>
+            </div>
+            
+            <!--Vista:Citas-->
+            <div id="viewDate">
+                <h:form id="vdForm" style="padding-top: 10px">
+                    <p:panel id="vPanel" style="margin-bottom: 10px; padding-bottom: 25px;" >
+                        <!--SubVista: Aceptar citas-->
+                        <p:dataTable id="vdvTable" var ="xac" value="#{dater.porAceptar}"> 
+                            <p:column headerText="Citas propuestas" > 
+                                <h:panelGrid columns="2" style="width: 100%" columnClasses="c2, c3">
+                                    <h:outputLabel value="#{xac.info()}"
+                                                   style="width: 80%;
+                                                   color: #1da1f2;"
+                                                   >
+                                        <a href="#{xac.date.nombreLugar.ubicacionGmaps}" target="_blank"><i class="fa fa-map-marker" ></i>
+                                            #{xac.date.nombreLugar.nombreLugar}
+                                        </a>
+                                    </h:outputLabel>
+                                    <p:commandButton 
+                                        id ="buttonAceptDate"
+                                        value="Elegir"
+                                        icon="fa fa-thumbs-o-up"
+                                        style=" font-weight: normal;
+                                        margin-right: 5px;"
+                                        action="#{xac.aceptarCita()}"
+                                        update="@parent:@parent:@parent:@parent"
+                                       
+                                        >                                        
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </p:column>
+                        </p:dataTable>
+                        <p:panel id="aPanel" style="margin-bottom: 10px; padding-bottom: 25px" header="Citas aceptadas">      
+                            <!--SubVista: Citas para entregar -->
+                            <p:dataTable id="vdaTable1" var ="xen" value="#{dater.entregas}">
+                                <p:column headerText="Mis entregas" >
+                                    <h:panelGrid columns="2" style="width: 100%; " columnClasses="c4, c3">
+                                        <h:outputLabel value="#{xen.deliverTo()}"
+                                                       style="width: 80%;
+                                                       color: #1da1f2;"
+                                                       >
+                                        </h:outputLabel>
+                                        <a href="#{xen.date.nombreLugar.ubicacionGmaps}" target="_blank" style=" font-weight: bold">
+                                            <i class="fa fa-map-marker" ></i>
+                                            #{xen.date.nombreLugar.nombreLugar}
+                                        </a>
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:dataTable>
+                            <!--SubVista: Citas para recoger -->
+                            <p:dataTable id="vdaTable2" var ="xre" value="#{dater.recibos}">
+                                <p:column headerText="Mis Recibos" >
+                                    <h:panelGrid columns="3" style="width: 100%" columnClasses="c4, c4, c3">
+                                        <h:outputLabel value="#{xre.reciveFrom()}"
+                                                       style="width: 80%;
+                                                       color: #1da1f2;"
+                                                       >
+                                        </h:outputLabel>
+                                        <a href="#{xre.date.nombreLugar.ubicacionGmaps}" target="_blank" style=" font-weight: bold">
+                                            <i class="fa fa-map-marker" ></i>
+                                            #{xre.date.nombreLugar.nombreLugar}
+                                        </a>
+                                        <p:commandButton 
+                                            id ="btValidate"
+                                            value="Calificar"
+                                            icon="fa fa-check"
+                                            style=" font-weight: normal;
+                                            margin-right: 5px;
+                                            display: #{xre.show}"
+                                            onclick="calUsuario()"                                        
+                                            >                                        
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </p:panel>                
+                </h:form>
+            </div>
+            
+            <!--Vista: Buscador de usuarios-->
+            <div id="userSearch">
+                <h:form id="searchForm" style="padding-top: 10px">      
+                    <p:panel id="usrAdminPanel" header="Administrador de usuarios" style="margin-bottom:10px;">
+                        <!--<p:messages id="messages" /> -->
+                        <h:panelGrid columns="3" cellpadding="100" style="width: 100%">                        
+                            <p:inputText id="usrSearch" 
+                                         value="#{adminT.objetivo}" 
+                                         required="true" 
+                                         placeholder="&#xf002;"
+                                         onchange="validateField('searchForm:usrSearchLabel', 'searchForm:usrSearch', 'Debe ingresar una busqueda')"
+                                         style="font-family:Arial, FontAwesome;" 
+                                         class="searchInput">
+                                <f:validateLength minimum="2" />
+                            </p:inputText>
+                            <h:selectOneMenu id="catSearch" class="selectCat"
+                                             value="#{adminT.tipo}" 
+                                             required="true" 
+                                             label="Text 2"
+                                             onchange="validateField('searchForm:catSearchLabel', 'searchForm:catSearch', 'Debe seleccionar una busqueda')"
+                                             >
+                                <f:selectItem itemLabel="Selecciona una opción de busqueda" itemValue="" noSelectionOption="true" />
+                                <f:selectItem itemLabel="usuario" itemValue="1" />
+                                <f:selectItem itemLabel="nombre" itemValue="2" />
+                                <f:selectItem itemLabel="email" itemValue="3" />
+                            </h:selectOneMenu> 
+                            
+                            <p:commandButton 
+                                process="@all" 
+                                value="Buscar" 
+                                onclick="search(validateField('searchForm:usrSearchLabel', 'searchForm:usrSearch', 'Debe ingresar una busqueda'),
+                                            validateField('searchForm:catSearchLabel', 'searchForm:catSearch', 'Debe seleccionar una busqueda'),
+                                            'searchForm:sResult')"
+                                action="#{adminT.search()}"
+                                update="searchForm:res-table"
+                                style="float:right">
+                            </p:commandButton>
+                            <h:outputLabel id="usrSearchLabel" class="validationlabel"></h:outputLabel> 
+                            
+                            <h:outputLabel id="catSearchLabel" class="validationlabel"></h:outputLabel> 
+                            
+                        </h:panelGrid>
+                        
+                    </p:panel>
+                    <p:panel id="sResult" style="margin-bottom: 10px; display: none; padding-bottom: 25px">
+                        <h:panelGrid columns="1" style="width: 100%">
+                            <p:commandButton value="Borrar" 
+                                             icon="fa fa-fw fa-trash-o" 
+                                             update="searchForm:res-table"
+                                             style=" font-weight: normal !important; float: right; margin-right: 5px"
+                                             action="#{adminT.update()}"
+                                             process="@all"/>    
+                        </h:panelGrid>
+                        <p:dataTable id="res-table" var ="res" value="#{adminT.lst}">
+                            <p:column headerText="Usuario" style="width: 10%">
+                                <h:outputText value="#{res.usr.usuario}" />
+                            </p:column>
+                            
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{res.usr.nombre} #{res.usr.apPaterno} #{res.usr.apMaterno}" />
+                            </p:column>
+                            
+                            <p:column headerText="E-mail">
+                                <h:outputText value="#{res.usr.correo}" />
+                            </p:column>
+                            
+                            <p:column headerText="Marcar" style="width: 10%;">
+                                <p:selectBooleanCheckbox value="#{res.status}" style="padding-left: 40%"></p:selectBooleanCheckbox>
+                            </p:column>
+                            
+                        </p:dataTable>
+                        <p:commandButton value="Borrar" 
+                                         icon="fa fa-fw fa-trash-o" 
+                                         update="searchForm:res-table"
+                                         style=" font-weight: normal !important; float: right; margin-right: 5px"
+                                         action="#{adminT.update()}"
+                                         process="@all"/>    
+                    </p:panel>
+                </h:form>
+            </div>
+            
+            <!--Vista: Agregar Lugares-->
+            <div id="addPlace">
+                <h:form id="fPl">
+                    <p:panel header="Agregar Lugares" style="margin-top: 10px;">
+                        <h:panelGrid columns="1" cellpadding="100" style="width: 100%">
+                            <h:outputLabel style="color: #1da1f2;">Ingrese nombre del lugar</h:outputLabel>
+                            <p:inputText id="name" 
+                                         placeholder="Nombre tal como aparece en google-maps" 
+                                         style=" width: 60%"
+                                         value="#{adminT.placeName}"></p:inputText>
+                            <h:outputLabel id="nameLabel" class="validationlabel" value=""></h:outputLabel>
+                            <br/>
+                            
+                            <h:outputLabel style="color: #1da1f2;">Ingrese URL del lugar en GoogleMaps</h:outputLabel>
+                            <p:inputText id="gps" 
+                                         placeholder="URL tal como aparece en la barra de busqueda en google-maps"
+                                         style=" width: 60%"
+                                         value="#{adminT.gps}"></p:inputText>
+                            <h:outputFormat id="gpsLabel" class="validationlabel" value=""></h:outputFormat>
+                            <br/>
+                            
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" cellspacing="100" style="width: 100%;" columnClasses="c2, c3">   
+                            <p:commandButton 
+                                value="Cancelar"
+                                onclick="cargaMisPublicaciones()"
+                                style="float:right">
+                            </p:commandButton>
+                            <p:commandButton 
+                                value="Registrar" 
+                                onclick="validateField('fPl:nameLabel', 'fPl:name', 'Se debe ingresar el nombre del lugar'), 
+                                    validateField('fPl:gpsLabel', 'fPl:gps', 'Se debe ingresar las coordenadas de google-maps'),
+                                    agregarLugar()"
+                                action="#{adminT.addPlace()}"
+                                >
+                            </p:commandButton>
+                            
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </div>
+            
+            <!--Vista:Crear Citas-->
+            <div id="mkDate">
+                <h:form id="mkdForm" style="padding-top: 10px">
+                    <p:panel id="mkdPanel" style="margin-bottom: 10px; padding-bottom: 25px">                      
+                        <p:dataTable id="mkdTable" var ="fal" value="#{dater.faltantes}">
+                            <p:column headerText="Encuestas que no has calendarizado" >
+                                <h:panelGrid columns="2" style="width: 100%" columnClasses="c2, c3">
+                                    <h:outputLabel value="Encuesta de: #{fal.r.usuario.nombre}"
+                                                   style="width: 80%;"></h:outputLabel>
+                                    <p:commandButton 
+                                        id ="buttonShow"
+                                        value="Crear"                                    
+                                        style=" font-weight: normal;
+                                        margin-right: 5px;"
+                                        onclick="unHide('mkdForm:mkdTable:',#{fal.pos},':unId')"                                                                       
+                                        >                                        
+                                    </p:commandButton>
+                                </h:panelGrid>
+                                <p:panel id="unId" style="display: none;" header="Propon 3 Lugares, la fecha y el hora en que puedes asistir">
+                                    <h:panelGrid columns="3" cellpadding="5"  style="width: 100%;border-color: white">
+                                        <h:selectOneMenu id="place1" value="#{dater.pl1}" class="toRight">
+                                            <f:selectItem itemLabel="Selecciona el lugar" itemValue="" noSelectionOption="true" />
+                                            <f:selectItems value="#{dater.places}"></f:selectItems>
+                                        </h:selectOneMenu>
+                                        <h:outputLabel id="date1Label" class="validationlabel"></h:outputLabel>                                        
+                                        <p:inputText id="date1" type="datetime-local" value="#{dater.d1}" class="toLeft" onchange="validDate(#{fal.pos}, ':date1', ':date1Label')"></p:inputText>
+                                        
+                                        <h:selectOneMenu id="place2" value="#{dater.pl2}" class="toRight">
+                                            <f:selectItem itemLabel="Selecciona el lugar" itemValue="" noSelectionOption="true" />
+                                            <f:selectItems value="#{dater.places}" ></f:selectItems>
+                                        </h:selectOneMenu>
+                                        <h:outputLabel id="date2Label" class="validationlabel"></h:outputLabel>
+                                        <p:inputText id="date2" type="datetime-local" value="#{dater.d2}"  class="toLeft" onchange="validDate(#{fal.pos}, ':date2', ':date2Label')"></p:inputText>
+                                        
+                                        <h:selectOneMenu id="place3" value="#{dater.pl3}" class="toRight"> 
+                                            <f:selectItem itemLabel="Selecciona el lugar" itemValue="" noSelectionOption="true" />
+                                            <f:selectItems value="#{dater.places}"></f:selectItems>
+                                        </h:selectOneMenu>
+                                        <h:outputLabel id="date3Label" class="validationlabel" ></h:outputLabel>
+                                        <p:inputText id="date3" type="datetime-local" value="#{dater.d3}"  class="toLeft" onchange="validDate(#{fal.pos}, ':date3', ':date3Label')"></p:inputText>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2" style="border-color: white" columnClasses="c2, c3">
+                                        <p:commandButton value="Cancelar" update="@parent:@parent:@parent:@parent" class="toRight"></p:commandButton>
+                                        <p:commandButton value="Aceptar"  
+                                                         actionListener="#{dater.saveDate(fal.r.idRespuestas)}" 
+                                                         onclick="dateCreated(#{fal.pos})"
+                                                         resetValues="true"
+                                                         update="@parent:@parent:@parent:@parent"
+                                                         
+                                                         >
+                                        </p:commandButton>                                   
+                                        
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+            
+            <!-- Contestar cuestionario -->
+            <div id="mkAns" onload="#{ansEditor.cargaEncuesta()}">
+                <h:form id="mkaRespuestas">
+                    <p:panel header="Encuesta de validación">
+                        <h:panelGrid columns="1" cellpadding="100" style="width: 100%">                        
+                            <h:outputLabel style="color: #1da1f2" value="#{ansEditor.obj.pregunta1}"></h:outputLabel>
+                            <p:inputText id="mkaR1" value="#{ansEditor.ans.respuesta1}" 
+                                         required="true"                                      
+                                         placeholder="Escriba su respuesta" 
+                                         onblur ="validaRes('mkaRespuestas:mkaR1','mkaRespuestas:labelR1')" 
+                                         style="width: 100%"
+                                         >                            
+                            </p:inputText>
+                            <h:outputLabel id="labelR1" class="validationlabel"></h:outputLabel>
+                            
+                            <h:outputLabel style="color: #1da1f2" value="#{ansEditor.obj.pregunta2}"></h:outputLabel>
+                            <p:inputText id="mkaR2" value="#{ansEditor.ans.respuesta2}" 
+                                         required="true"                                      
+                                         placeholder="Escriba su respuesta" 
+                                         onblur ="validaRes('mkaRespuestas:mkaR2','mkaRespuestas:labelR2')" 
+                                         style="width: 100%"
+                                         >                            
+                            </p:inputText>
+                            <h:outputLabel id="labelR2" class="validationlabel"></h:outputLabel>
+                            
+                            <h:outputLabel style="color: #1da1f2" value="#{ansEditor.obj.pregunta3}"></h:outputLabel>
+                            <p:inputText id="mkaR3" value="#{ansEditor.ans.respuesta3}" 
+                                         required="true"                                      
+                                         placeholder="Escriba su respuesta" 
+                                         onblur ="validaRes('mkaRespuestas:mkaR3','mkaRespuestas:labelR3')" 
+                                         style="width: 100%"
+                                         >                            
+                            </p:inputText>
+                            <h:outputLabel id="labelR3" class="validationlabel"></h:outputLabel>
+                            
+                            <h:outputLabel style="color: #1da1f2" value="#{ansEditor.obj.pregunta4}"></h:outputLabel>
+                            <p:inputText id="mkaR4" value="#{ansEditor.ans.respuesta4}" 
+                                         required="true"                                      
+                                         placeholder="Escriba su respuesta" 
+                                         onblur ="validaRes('mkaRespuestas:mkaR4','mkaRespuestas:labelR4')" 
+                                         style="width: 100%"
+                                         >                            
+                            </p:inputText>
+                            <h:outputLabel id="labelR4" class="validationlabel"></h:outputLabel>
+                            
+                            <h:outputLabel style="color: #1da1f2" value="#{ansEditor.obj.pregunta5}"></h:outputLabel>
+                            <p:inputText id="mkaR5" value="#{ansEditor.ans.respuesta5}" 
+                                         required="true"                                      
+                                         placeholder="Escriba su respuesta" 
+                                         onblur ="validaRes('mkaRespuestas:mkaR5','mkaRespuestas:labelR5')" 
+                                         style="width: 100%"
+                                         >                            
+                            </p:inputText>
+                            <h:outputLabel id="labelR5" class="validationlabel"></h:outputLabel>
+                            
+                        </h:panelGrid>
+                    </p:panel>
+                    <h:panelGrid columns="2" style="width:100%" columnClasses="c2, c3">
+                        <p:commandButton value="Cancelar" onclick="cargaUserPublicaciones()" class="toRight"></p:commandButton>
+                        <p:commandButton value="Contestar" onclick="answReady()" action="#{ansEditor.nuevaRespuesta()}" ></p:commandButton>
+                    </h:panelGrid>
+                </h:form>
+            </div>
+            
+            <!--Cambia foto-->
+            <div id="changePicture">
+                <h:form>
+                    <p:panel header="Actualización de avatar" style="margin-top:15px" >
+                        <h:panelGrid columns="1" style="width:90%">
+                            <h:outputLabel style="color: #1da1f2" value="Ingresa la URL de una foto y/o imagen"></h:outputLabel>
+                            <p:inputText id="photoUp" 
+                                         value="#{usuarioController.newAvatar}"                                          
+                                         placeholder="Ingresa URL"                                          
+                                         style="width: 100%"
+                                         >                            
+                            </p:inputText>
+                        </h:panelGrid>
+                        <br/>
+                        <h:panelGrid columns="2" style="width:100%" columnClasses="c1 c2">                           
+                            <p:commandButton value="Cancelar" onclick="cargaUserPublicaciones()" style="float:right"></p:commandButton>
+                            <p:commandButton value="Subir" onclick="cargaUserPublicaciones()" action="#{usuarioController.upload()}" style="float:right"></p:commandButton>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </div>
+            
+            <script src="resources/js/jquery.js"></script>
+            <script src="resources/js/principal.js"></script>
+            <script src="resources/js/validator.js"></script>
+            <script src="resources/js/bootstrap.min.js"></script>
+            <script src="resources/js/plugins/morris/raphael.min.js"></script>
+            <script src="resources/js/plugins/morris/morris.min.js"></script>
+            <script src="resources/js/plugins/morris/morris-data.js"></script>
+        </h:body>
+    </html>
+    

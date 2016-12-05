@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+
+<h:body>
+    
+<p:growl id="messages" showDetail="true" />
+ 
+<p:gmap id="gmap" center="19.324806735794954, -99.17930647730827" zoom="13" type="ROADMAP" style="width:100%;height:400px"
+    onPointClick="handlePointClick(event);" widgetVar="map" />
+ 
+<p:inputText value="#{mapaPrueba.latitud}" id="lat" required="true" />
+<p:inputText value="#{mapaPrueba.longitud}" id="lng" required="true" />
+ 
+<a onclick="addMarker()" style="margin-left: 10%;
+                                  width: 80%">mapaPrueba</a>
+                                  
+
+
+<script type="text/javascript">
+    
+    var currentMarker = null;
+    
+    function addMarker(){
+        
+        var lat = (jQuery('#lat').val());
+        var lng = (jQuery('#lng').val());
+        
+        if(currentMarker === null) {
+ 
+            currentMarker = new google.maps.Marker({
+                position:new google.maps.LatLng(lat, lng)
+            });
+
+            PF('map').addOverlay(currentMarker);
+            $('#lat').val(String(lat));
+            $('#lng').val(String(lng));
+ 
+
+        }else{
+            var newposition = new google.maps.LatLng(lat, lng);
+            currentMarker.setPosition(newposition);
+
+            $('#lat').val(String(lat));
+            $('#lng').val(String(lng));
+        }         
+    }
+     
+    function handlePointClick(event) {
+        if(currentMarker === null) {
+ 
+            currentMarker = new google.maps.Marker({
+                position:new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
+            });
+ 
+            PF('map').addOverlay(currentMarker);
+            var vlat = event.latLng.lat();
+            var vlng = event.latLng.lng();
+
+            $('#lat').val(String(vlat));
+            $('#lng').val(String(vlng));
+ 
+
+        }else{
+            var newposition = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
+            currentMarker.setPosition(newposition);
+            var vlat = event.latLng.lat();
+            var vlng = event.latLng.lng();
+
+            $('#lat').val(String(vlat));
+            $('#lng').val(String(vlng));
+        }      
+    }
+    
+setTimeout(function() {  
+    addMarker();
+}, 1000);
+</script>
+</h:body>
+
+</html>

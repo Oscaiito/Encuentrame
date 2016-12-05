@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+          
+    <h:head>
+        <link href="resources/css/components.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/theme.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    <h:body>
+        
+        <h1 style="color: #1da1f2">Registro de usuario</h1>
+            
+        <h:form id="usrReg">
+            <p:growl id="growl" sticky="true" showDetail="true" />
+            <p:wizard flowListener="#{registroController.onFlowProcess}" backLabel="Atras" nextLabel="Siguiente" >
+                <p:tab id="personal" title="Personal">
+                    <p:panel header="Datos personales" class="ui-panel-titlebar">                        
+                        <h:outputText value="* Campos Obligatorios" class="grayColor regField"></h:outputText>
+                        <h:panelGrid columns="3" columnClasses="label, value" style="margin-top: 5px;">
+                            <h:outputText value="Nombre (s): *" class="grayColor regField"/>
+                            <p:inputText id="nameReg" class="inputBox" value="#{registroController.user.nombre}" required="true" label="Firstname"/>
+                            <h:outputLabel id="nameRegLabel" class="validationlabel" value=""></h:outputLabel>
+                                
+                            <h:outputText value="Apellido paterno: *" class="grayColor regField"/>
+                            <p:inputText id="apReg" class="inputBox" value="#{registroController.user.apPaterno}" required="true" label="Lastname"/>
+                            <h:outputLabel id="apRegLabel" class="validationlabel" value=""></h:outputLabel>
+                                
+                            <h:outputText value="Apellido materno: " class="grayColor regField"/>
+                            <p:inputText class="inputBox" value="#{registroController.user.apMaterno}" />
+                            <h:outputLabel class="validationlabel" value=""></h:outputLabel>
+                                
+                            <h:outputText value="Avatar URL: " class="grayColor regField"/>
+                            <p:inputText  class="inputBox" value="#{registroController.user.avatar}" />
+                            <h:outputLabel class="validationlabel" value=""></h:outputLabel>
+                                
+                            <h:outputText value="Fecha Nacimiento: " class="grayColor regField"/>
+                            <p:calendar class="inputBox" value="#{registroController.user.FNacimiento}" navigator="true" showOn="button" yearRange="c-36:c" style=" width: 200px !important;"/>
+                            <h:outputLabel class="validationlabel" value=""></h:outputLabel>
+                                
+                            <h:outputText value="Genero: *" class="grayColor regField" style="margin-top: 20px;" />
+                            <p:selectOneMenu id="sx" class="inputBox" style=" margin-top: 10px; width: 100%" value="#{registroController.user.sexo}" required="true">
+                                <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                <f:selectItem itemLabel="Femenino" itemValue="F" />
+                            </p:selectOneMenu>
+                            <h:outputLabel id="sxLabel" class="validationlabel" value=""></h:outputLabel>    
+                                
+                            <h:outputText value="Escuela *" class="grayColor regField" />                            
+                            <p:selectOneMenu id="sc" value="#{registroController.user.escuela}" style="width:100%" required="true">
+                                <f:selectItem itemLabel="Selecciona tu escuela" itemValue="" />
+                                <f:selectItem itemLabel="Facultad de Ciencias" itemValue="Facultad de Ciencias" />
+                                <f:selectItem itemLabel="Facultad de Quimica" itemValue="Facultad de Quimica" />
+                                <f:selectItem itemLabel="Facultad de Musica" itemValue="Facultad de Musica" />
+                                <f:selectItem itemLabel="Facultad de Artes y Diseño" itemValue="Facultad de Artes y Diseño" />
+                                <f:selectItem itemLabel="Facultad de Medicina Veterinaria y Zootecnia" itemValue="Facultad de Medicina Veterinaria y Zootecnia" />
+                                <f:selectItem itemLabel="Facultad de Ciencias Politicas y Sociales" itemValue="Facultad de Ciencias Politicas y Sociales" />
+                                <f:selectItem itemLabel="Facultad de Medicina" itemValue="Facultad de Medicina" />
+                                <f:selectItem itemLabel="Facultad de Arquitectura" itemValue="Facultad de Arquitectura" />
+                                <f:selectItem itemLabel="Facultad de Economia" itemValue="Facultad de Economia" />
+                                <f:selectItem itemLabel="Facultad de Derecho" itemValue="Facultad de Derecho" />
+                                <f:selectItem itemLabel="Facultad de Filosofia y Letras" itemValue="Facultad de Filosofia y Letras" />
+                                <f:selectItem itemLabel="Facultad de Contaduria y Administracion" itemValue="Facultad de Contaduria y Administracion" />
+                                <f:selectItem itemLabel="Facultad de Psicologia" itemValue="Facultad de Psicologia" />
+                                <f:selectItem itemLabel="Facultad de Odontologia" itemValue="Facultad de Odontologia" />
+                                <f:selectItem itemLabel="Facultad de Ingenieria" itemValue="Facultad de Ingenieria" />
+                                <f:selectItem itemLabel="Otra" itemValue="Otra" />
+                            </p:selectOneMenu>      
+                            <h:outputLabel id="scLabel" class="validationlabel" value=""></h:outputLabel>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                    
+                <p:tab id="acceso" title="Acceso">
+                    <p:panel header="Informacion de Acceso al sistema">                        
+                        <h:panelGrid columns="3" columnClasses="label, value">
+                            <h:outputText value="* Campos Obligatorios" class="grayColor regField"></h:outputText>
+                            <h:outputText></h:outputText><h:outputText></h:outputText>
+                            <h:outputText value="Numero Cuenta: *" class="grayColor regField"/>
+                            <p:inputText id="ctaUsr" 
+                                         value="#{registroController.user.usuario}" 
+                                         required="true" 
+                                         label="Numero Cuenta"
+                                         class="inputBox"
+                                         />       
+                            <h:outputLabel class="validationlabel" value=""></h:outputLabel>
+                                
+                            <h:outputText value="Email: *" class="grayColor regField" />
+                            <p:inputText value="#{registroController.user.correo}" required="true" label="Email" class="inputBox"/>                                
+                            <h:outputLabel class="validationlabel" value=""></h:outputLabel>
+                                
+                            <h:outputText value="Contraseña: *" class="grayColor regField"/>
+                            <p:password id="password1" value="#{registroController.user.password}" match="password2" label="Contraseña" required="true" class="inputBox" />
+                            <h:outputLabel class="validationlabel" value=""></h:outputLabel>
+                                
+                            <h:outputText value="Repetir contraseña: *" class="grayColor regField"/>
+                            <p:password id="password2" label="Repetir Contraseña" required="true" class="inputBox"/>
+                            <h:outputLabel class="validationlabel" value=""></h:outputLabel>
+                                
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                    
+                <p:tab id="confirm" title="Confirmacion">
+                    <p:panel header="Confirmar Registro">
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            
+                            <h:outputText value="Avatar *" class="grayColor regField"/>
+                            <p:graphicImage id="regImg" value="#{registroController.obtenerAvatar()}" alt=""
+                                            style="width: 150px; height: 150px;  margin-right:20%;"/>                                     
+                                                
+                            <h:outputText value="Nombre: " class="grayColor regField"/>
+                            <h:outputText value="#{registroController.user.nombre}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Apellido paterno: " class="grayColor regField"/>
+                            <h:outputText value="#{registroController.user.apPaterno}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Apellino materno:" class="grayColor regField"/>
+                            <h:outputText value="#{registroController.user.apMaterno}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Fecha Nacimiento:" class="grayColor regField"/>
+                            <h:outputText value="#{registroController.prettyDate()}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Genero:" class="grayColor regField"/>
+                            <h:outputText value="#{registroController.user.sexo}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Escuela:" class="grayColor regField"/>
+                            <h:outputText value="#{registroController.user.escuela}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Numero Cuenta:" class="grayColor regField"/>
+                            <h:outputText value="#{registroController.user.usuario}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Email:" class="grayColor regField"/>
+                            <h:outputText value="#{registroController.user.correo}" styleClass="outputLabel"/>                               
+                                
+                                
+                        </h:panelGrid>
+                            
+                    </p:panel>
+                    <p:commandButton value="Registrase" 
+                                     actionListener="#{registroController.save}" 
+                                     onclick="cargaPublicaciones()" 
+                                     resetValues="true" 
+                                     update="growl" 
+                                     process="usrReg"
+                                     style="float:right; margin-top: 4px"/>
+                </p:tab>
+                    
+            </p:wizard>
+                
+        </h:form>
+            
+            
+        <script src="resources/js/validator.js"></script>
+            
+    </h:body>
+</html>

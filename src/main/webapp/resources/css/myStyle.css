@@ -1,0 +1,172 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 30/09/2016, 12:07:59 PM
+    Author     : roy
+*/
+#contPrincipal{
+    min-height: 800px;
+}
+#menuIzq{
+    cursor: pointer;
+}
+#logoImg{
+    width: 70px;
+    height: 50px;
+    margin-top: -15px;
+    display: '';
+    
+    
+}
+#titleLogo{
+    margin-left: 72px;
+    position: fixed;
+    margin-top: 5px;
+    font-size: 20px;
+    font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+    font-weight: 500;
+    line-height: 15.4px;
+    
+    
+}
+#portrait{
+    margin-top: 5px;
+    border-color: white;
+    width: 200px;
+    border-radius: 25px;
+    cursor: default;
+}
+#portraitImg{
+    width: 200px;
+    height: 200px;
+    border-radius: 25px;
+    border: 2px solid white;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    
+}
+.porTraitGral{
+    margin-left: 12px;
+    
+}
+
+#upload{
+    margin-left: 20px;
+    margin-top:-30px;
+    display: table-caption;
+    position: relative;
+    cursor: pointer;
+    font-size: 16pt;
+}
+#stars{
+    width: 200px;
+    cursor: default;    
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.panelgridinvisible{
+    border-color: white;
+}
+
+.validationlabel{
+    color: #657786;
+}
+.blueColor{
+    color:#1da1f2;
+}
+
+.grayColor{
+    color: #657786;
+}
+
+.smallImg{
+    width: 40px;
+    height: 40px;
+    
+}
+textarea {
+    resize: none;
+    border-color:white;
+}
+
+.ui-paginator, th{ 
+    color: black !important;
+}
+
+.BuscarButton{
+    float: right;
+    margin-right: 0px;
+}
+
+.selectCat{
+    width:90%
+        
+}
+.searchInput{
+    width:90%;
+    line-height: 0;
+    
+}
+
+.searchInput::-webkit-input-placeholder { 
+    text-align:right; 
+}
+
+.somePanel{
+    margin-bottom:10px; 
+    margin-top: 10px;
+}
+.somePanelGrid{
+    width: 100%;
+}
+
+.container-fluid{
+    width:100%;
+    background-color: white;
+}
+.inputBox{
+    margin-bottom: 10px !important;
+}
+
+.ui-inputfield ui-widget ui-state-default ui-corner-all hasDatepicker{
+    width: 50%;
+}
+
+.toRight{
+    float:right;
+}
+
+.toLeft{
+    float:left;
+}
+.sec-col{
+    width: 10%;
+}
+
+.c1{
+    width: 80%;
+}
+.c2{
+    width: 90%;
+}
+.c3{
+    width: 10%;
+}
+
+.c4{
+    width: 40%;
+}
+
+.c5{
+    width: 50%;
+}
+
+.regField{
+    font-size: 9pt;
+}

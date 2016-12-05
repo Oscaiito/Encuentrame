@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+    <a href="userModify.xhtml"></a>
+<h:head>
+
+</h:head> 
+        
+<h:body>    
+   
+<h:form>
+    
+    <p:growl id="growl" sticky="true" showDetail="true"/>
+ 
+    <h1>Calificar usuario</h1>
+    <p:tabView>
+        <p:tab title="Calicaras a:">
+            <h:panelGrid columns="2" columnClasses="label, value">
+                <h:outputText value="Nombre: " style="color:black;"/>
+                <h:outputText value="#{calUsr.nombre}" styleClass="outputLabel"/>
+
+                <h:outputText value="Email: " style="color:black;"/>
+                <h:outputText value="#{calUsr.email}" styleClass="outputLabel"/>
+
+                <h:outputText value="No. cuenta:" style="color:black;"/>
+                <h:outputText value="#{calUsr.cuenta}" styleClass="outputLabel"/>
+                
+                <p:rating value="#{calUsr.califar}" stars="5" cancel="false" onRate="alert('Tu lo calificaste con ' + value+' estrellas :D')" />
+               <br/>
+                <p:commandButton value="Calificar " actionListener="#{calUsr.calificar()}"/>
+            </h:panelGrid> 
+        </p:tab>
+    </p:tabView>
+</h:form>
+
+</h:body>
+</html>

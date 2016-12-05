@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+          
+    <h:head>
+        <link href="resources/css/myStyle.css" rel="stylesheet"/>
+        <link href="resources/css/components.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/theme.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    <h:body>
+        <h3 style="font-family: 'latoregular','Trebuchet MS','Arial','Helvetica','sans-serif';">Registro de objetos</h3>
+        <h:form id="regForm">
+            <p:growl id="objGrowl" sticky="true" showDetail="true"/>
+            <p:wizard flowListener="#{objEditor.onFlowProcess}">
+                <p:tab id="object" title="Objeto">
+                    <p:panel header="Datos personales">                        
+                        <h:panelGrid columns="1" columnClasses="label, value" width="100%">                            
+                            <h:outputText value="Titulo de la publicación: *" class="grayColor"/>
+                            <p:inputText id="titleIn"
+                                         value="#{objEditor.objeto.titulo}" 
+                                         required="true" 
+                                         label="Title" 
+                                         style="width: 50%"
+                                         placeholder="Ingrese titulo"
+                                         onblur="validateField('regForm:labelTitle', 'regForm:titleIn', 'Se debe ingresar un titulo')" />
+                            <h:outputLabel id="labelTitle" class="validationlabel"></h:outputLabel>
+                                
+                            <h:outputText value="Fecha de encuentro: *" class="grayColor"/>
+                            <p:calendar id="calendarE"
+                                        value="#{objEditor.objeto.fechaEncuentro}" 
+                                        required="true" 
+                                        navigator="true" 
+                                        showOn="button" 
+                                        placeholder="Seleccione fecha"     
+                                        onblur="validateField('regForm:labelFecha', 'regForm:calendarE','Se debe seleccionar una fecha')"
+                                        style="width: 50% !important;"
+                                        yearRange="c-2:c+2"
+                                        ></p:calendar>
+                            <h:outputLabel id="labelFecha" class="validationlabel"></h:outputLabel>
+                                
+                            <h:outputText value="Lugar en donde se encuentro el objeto: " class="grayColor"/>
+                            <p:inputText id="place" 
+                                         placeholder="Ingrese el lugar donde encontro el objeto"
+                                         style="width: 50%" 
+                                         value="#{objEditor.objeto.lugarE}" 
+                                         required="true"
+                                         onblur="validateField('regForm:labelLugar', 'regForm:place','Se debe indicar el lugar en que se encontro el objeto')" />
+                            <h:outputLabel id="labelLugar" class="validationlabel"></h:outputLabel>
+                                
+                            <h:outputText value="Descripcion del objeto : " class="grayColor"/>                    
+                            <p:inputTextarea id="desc" value="#{objEditor.objeto.descripcion}" required="true" label="Description" 
+                                             placeholder="Ingrese una descripción" 
+                                             style="width: 50%" 
+                                             onblur="validateField('regForm:labelDesc', 'regForm:desc', 'Se necesita una breve descripcion del objeto')" >
+                                <f:validateLength minimum="3" maximum="50" /> 
+                            </p:inputTextarea>
+                            <h:outputLabel id="labelDesc" class="validationlabel"></h:outputLabel>
+                                
+                            <h:outputText value="Categoria: " class="grayColor"/>
+                            <p:selectOneMenu value="#{objEditor.objeto.categoria}" class="grayColor" style="width: 50%;" required="true">
+                                <f:selectItem itemLabel="Selecciona una opción" itemValue="" noSelectionOption="true" class="grayColor"/>
+                                <f:selectItem itemLabel="Libro" itemValue="book" />
+                                <f:selectItem itemLabel="Celular" itemValue="cellphone" />
+                                <f:selectItem itemLabel="Ropa" itemValue="clothe" />
+                                <f:selectItem itemLabel="Credencial" itemValue="credential" />
+                                <f:selectItem itemLabel="Lentes" itemValue="glasses" />
+                                <f:selectItem itemLabel="Audifonos" itemValue="headphone" />
+                                <f:selectItem itemLabel="Laptop" itemValue="laptop" />
+                                <f:selectItem itemLabel="Libreta" itemValue="notebook" />
+                                <f:selectItem itemLabel="Pad" itemValue="pad" />
+                                <f:selectItem itemLabel="Cartera" itemValue="wallet" />
+                                <f:selectItem itemLabel="Monedero" itemValue="wallet" />
+                                <f:selectItem itemLabel="Reloj" itemValue="wathc" />
+                                <f:selectItem itemLabel="Otros" itemValue="otro" />
+                            </p:selectOneMenu>         
+                            <h:outputLabel id="labelCat" class="validationlabel"></h:outputLabel>
+                                
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                    
+                <p:tab id="poll" title="Encuesta">    
+                    <p:messages />
+                    <p:panel id="mkpPanel" header="Nueva Encuesta" style="margin-bottom: 10px">                        
+                        <h:panelGrid id="mkpPg" columns="1" cellpadding="100" style="width: 100%">                                               
+                            <p:inputText id="mkpQ1" value="#{objEditor.objeto.pregunta1}" 
+                                         required="true" 
+                                         requiredMessage="Se debe ingresar una pregunta."                                      
+                                         placeholder="Ingrese una pregunta" 
+                                         onblur ="validateQstn('regForm:labelQ1', 'regForm:mkpQ1')"
+                                         style="width: 60%"
+                                         >                            
+                            </p:inputText>
+                            <h:outputLabel id="labelQ1" class="validationlabel"></h:outputLabel>
+                                
+                            <p:inputText id="mkpQ2" value="#{objEditor.objeto.pregunta2}" 
+                                         required="true" 
+                                         requiredMessage="Se debe ingresar una pregunta."                                      
+                                         placeholder="Ingrese una pregunta" 
+                                         onblur ="validateQstn('regForm:labelQ2', 'regForm:mkpQ2')"
+                                         style="width: 60%"
+                                         >                            
+                            </p:inputText>
+                            <h:outputLabel id="labelQ2" class="validationlabel"></h:outputLabel>
+                                
+                            <p:inputText id="mkpQ3" value="#{objEditor.objeto.pregunta3}" 
+                                         required="true" 
+                                         requiredMessage="Se debe ingresar una pregunta."                                      
+                                         placeholder="Ingrese una pregunta" 
+                                         onblur ="validateQstn('regForm:labelQ3', 'regForm:mkpQ3')"
+                                         style="width: 60%"
+                                         >                            
+                            </p:inputText>
+                            <h:outputLabel id="labelQ3" class="validationlabel"></h:outputLabel>
+                                
+                            <p:inputText id="mkpQ4" value="#{objEditor.objeto.pregunta4}" 
+                                         required="true" 
+                                         requiredMessage="Se debe ingresar una pregunta."                                      
+                                         placeholder="Ingrese una pregunta" 
+                                         onblur ="validateQstn('regForm:labelQ4', 'regForm:mkpQ4')"
+                                         style="width: 60%"
+                                         >                            
+                            </p:inputText>
+                            <h:outputLabel id="labelQ4" class="validationlabel"></h:outputLabel>
+                                
+                            <p:inputText id="mkpQ5" value="#{objEditor.objeto.pregunta5}" 
+                                         required="true" 
+                                         requiredMessage="Se debe ingresar una pregunta."                                      
+                                         placeholder="Ingrese una pregunta" 
+                                         onblur ="validateQstn('regForm:labelQ5', 'regForm:mkpQ5')"
+                                         style="width: 60%"
+                                         >                            
+                            </p:inputText>
+                            <h:outputLabel id="labelQ5" class="validationlabel"></h:outputLabel>
+                        </h:panelGrid>        
+                            
+                    </p:panel>               
+                </p:tab>     
+                <p:tab id="confirm" title="Confirmacion">
+                    <p:panel header="Confirmar Registro">
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText value="Titulo " style="color:black;"/>
+                            <h:outputText value="#{objEditor.objeto.titulo}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Lugar donde lo encontro: " style="color:black;"/>
+                            <h:outputText value="#{objEditor.objeto.lugarE}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Descripcion del objeto" style="color:black;"/>
+                            <h:outputText value="#{objEditor.objeto.descripcion}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Pregunta 1:" style="color:black;"/>
+                            <h:outputText value="#{objEditor.objeto.pregunta1}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Pregunta 2:" style="color:black;"/>
+                            <h:outputText value="#{objEditor.objeto.pregunta2}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Pregunta 3:" style="color:black;"/>
+                            <h:outputText value="#{objEditor.objeto.pregunta3}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Pregunta 4:" style="color:black;"/>
+                            <h:outputText value="#{objEditor.objeto.pregunta4}" styleClass="outputLabel"/>
+                                
+                            <h:outputText value="Pregunta 5:" style="color:black;"/>
+                            <h:outputText value="#{objEditor.objeto.pregunta5}" styleClass="outputLabel"/>
+                                
+                        </h:panelGrid>
+                       
+                    </p:panel>
+                     <p:commandButton value="Publicar" actionListener="#{objEditor.save}" onclick="cargaPublicaciones()" update="objGrowl" process="@this" style="float:right; margin-top: 4px"/>                        
+                </p:tab>
+            </p:wizard>
+        </h:form>
+    </h:body>
+</html>
